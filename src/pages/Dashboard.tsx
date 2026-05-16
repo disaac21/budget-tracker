@@ -1,4 +1,7 @@
+import {Home, MinusCircle, PlusCircle} from "lucide-react";
 import {StatsOverviewCard} from "../components/dashboard/StatsOverviewCard";
+import {TopCategoryCard} from "../components/dashboard/TopCategoryCard";
+import {BigButton} from "../components/dashboard/BigButton";
 
 export default function Dashboard() {
     return (
@@ -29,6 +32,30 @@ export default function Dashboard() {
                             transactions={34}
                         />
                     </div>
+                    <div className="lg:w-1/3 flex flex-col">
+                        <TopCategoryCard
+                            title="Housing & Rent"
+                            amount="$2,800.00"
+                            percentageUsed={85}
+                            icon={Home}
+                        />
+                    </div>
+                </section>
+
+                <section className="grid grid-cols-2 gap-4 sm:gap-6 mb-8">
+                    <BigButton
+                        title="Income"
+                        icon={PlusCircle}
+                        color="bg-green-600"
+                        onClick={() => console.log("INCOME")}
+                    />
+
+                    <BigButton
+                        title="Expense"
+                        icon={MinusCircle}
+                        color="bg-red-600"
+                        onClick={() => console.log("EXPENSE")}
+                    />
                 </section>
             </main>
         </div>
