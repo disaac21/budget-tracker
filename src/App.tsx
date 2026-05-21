@@ -12,10 +12,10 @@ import Dashboard from "./pages/Dashboard";
 
 export default function App() {
     return (
-        <div className="min-h-screen bg-[#faf9fa] flex">
+        <div className="h-screen bg-[#faf9fa] flex">
             <Sidebar />
 
-            <main className="flex-1">
+            <main className="flex-1 overflow-y-auto">
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     {/* <Route path="/analytics" element={<Analytics />} />

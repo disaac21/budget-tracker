@@ -30,8 +30,9 @@ export function TopCategoryCard({
                 <IndicatorBar
                     value={percentageUsed}
                     label={`${percentageUsed}% OF BUDGET USED`}
+                    bgClassName="bg-white/25"
+                    fillClassName="bg-white"
                     heightClassName="h-2"
-                    colorClassName="bg-white"
                 />
             </div>
 

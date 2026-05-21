@@ -4,7 +4,34 @@ interface CategoryRadialCardProps {
     limit: string;
     percentage: number;
     icon: React.ReactNode;
-    color?: string;
+}
+
+function getCategoryColor(percentage: number) {
+    if (percentage <= 25) {
+        return {
+            stroke: "#22c55e", // green
+            text: "text-green-500",
+        };
+    }
+
+    if (percentage <= 50) {
+        return {
+            stroke: "#f1da09", // yellow
+            text: "text-yellow-500",
+        };
+    }
+
+    if (percentage <= 75) {
+        return {
+            stroke: "#ff9d00", // orange
+            text: "text-orange-500",
+        };
+    }
+
+    return {
+        stroke: "#ef4444", // red
+        text: "text-red-500",
+    };
 }
 
 export function CategoryRadialCard({
@@ -13,8 +40,9 @@ export function CategoryRadialCard({
     limit,
     percentage,
     icon,
-    color = "#22c55e",
 }: CategoryRadialCardProps) {
+    const {stroke, text} = getCategoryColor(percentage);
+
     return (
         <div className="w-full bg-white border border-slate-200 rounded-2xl p-4 shadow-sm transition-all flex flex-col lg:flex-col items-center gap-4">
             {/* MOBILE/MD: radial + info lado a lado, centrados */}
@@ -32,7 +60,7 @@ export function CategoryRadialCard({
                             <path
                                 d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                                 fill="none"
-                                stroke={color}
+                                stroke={stroke}
                                 strokeDasharray={`${percentage}, 100`}
                                 strokeWidth="2.5"
                                 strokeLinecap="round"
@@ -40,7 +68,8 @@ export function CategoryRadialCard({
                         </svg>
                         <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-3">
                             <div className="text-blue-600 text-2xl">{icon}</div>
-                            <p className="text-xs uppercase tracking-[0.2em] text-slate-400 font-bold opacity-80">
+                            <p
+                                className={`text-xs uppercase tracking-[0.1em] ${text} font-bold opacity-80`}>
                                 {title}
                             </p>
                             <span className="mt-1 text-lg font-bold text-slate-800">
@@ -84,7 +113,7 @@ export function CategoryRadialCard({
                         <path
                             d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                             fill="none"
-                            stroke={color}
+                            stroke={stroke}
                             strokeDasharray={`${percentage}, 100`}
                             strokeWidth="2.5"
                             strokeLinecap="round"
@@ -92,7 +121,8 @@ export function CategoryRadialCard({
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-3">
                         <div className="text-blue-600 text-2xl">{icon}</div>
-                        <p className="text-xs uppercase tracking-[0.2em] text-slate-400 font-bold opacity-80">
+                        <p
+                            className={`text-xs uppercase tracking-[0.1em] ${text} font-bold opacity-80`}>
                             {title}
                         </p>
                         <span className="mt-1 text-lg font-bold text-slate-800">

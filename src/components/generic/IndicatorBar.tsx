@@ -1,7 +1,8 @@
 interface IndicatorBarProps {
     value: number;
     label?: string;
-    colorClassName?: string;
+    bgClassName?: string;
+    fillClassName?: string;
     heightClassName?: string;
     showLabel?: boolean;
 }
@@ -9,16 +10,19 @@ interface IndicatorBarProps {
 export function IndicatorBar({
     value,
     label,
-    colorClassName,
+    bgClassName,
+    fillClassName,
     heightClassName,
     showLabel = true,
 }: IndicatorBarProps) {
     return (
         <div className="w-full">
+            {/* background */}
             <div
-                className={`w-full ${heightClassName} ${colorClassName}/20 rounded-full overflow-hidden`}>
+                className={`w-full ${heightClassName} ${bgClassName} rounded-full overflow-hidden`}>
+                {/* fill */}
                 <div
-                    className={`h-full rounded-full transition-all duration-500 ${colorClassName}`}
+                    className={`h-full rounded-full transition-all duration-500 ${fillClassName}`}
                     style={{width: `${value}%`}}
                 />
             </div>

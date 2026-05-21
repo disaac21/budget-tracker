@@ -36,7 +36,7 @@ const AccordionItems: AccordionItem[] = [
                     title="Entertainment"
                     current="$80.00"
                     limit="$200.00"
-                    percentage={40}
+                    percentage={20}
                     icon={<Home className="w-6 h-6" />}
                 />
             </div>
@@ -100,12 +100,12 @@ export default function Dashboard() {
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-5">
                         <div>
                             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-900">
-                                Transactions Dashboard
+                                Budget Tracker
                             </h1>
 
                             <p className="text-sm sm:text-base text-slate-500 mt-2">
-                                Monitor your financial flow with precision and
-                                transparency.
+                                All your transactions. One clear view of your
+                                finances.
                             </p>
                         </div>
                     </div>

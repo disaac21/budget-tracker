@@ -33,10 +33,10 @@ export function TransactionsTable({transactions}: TransactionsTableProps) {
             <div className="p-4 border-b border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
                     <h3 className="text-lg font-bold text-slate-900">
-                        Activity Ledger
+                        Transactions Overview
                     </h3>
                     <p className="text-sm text-slate-500">
-                        Recent financial movements
+                        A quick glance at your recent financial activity.
                     </p>
                 </div>
 
@@ -106,7 +106,7 @@ export function TransactionsTable({transactions}: TransactionsTableProps) {
             {/* FOOTER (ONLY LOGIC ADDED) */}
             <div className="p-4 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <p className="text-sm text-slate-500">
-                    Showing {paginated.length} of {transactions.length}{" "}
+                    Showing {paginated.length} of {transactions.length} latest
                     transactions
                 </p>
 

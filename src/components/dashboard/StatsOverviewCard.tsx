@@ -31,8 +31,9 @@ export function StatsOverviewCard({
                     <IndicatorBar
                         value={percentageUsed}
                         label={`${percentageUsed}% OF BUDGET USED`}
+                        bgClassName="bg-blue-600/25"
+                        fillClassName="bg-blue-600"
                         heightClassName="h-4"
-                        colorClassName="bg-blue-600"
                     />
                 </div>
             </div>

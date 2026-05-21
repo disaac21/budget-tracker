@@ -2,26 +2,24 @@ import {useEffect, useState} from "react";
 
 export function useSidebarState() {
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isMobileOpen, setIsMobileOpen] = useState(false);
 
     useEffect(() => {
-        const saved = localStorage.getItem("sidebar");
+        const saved = localStorage.getItem("sidebar-collapsed");
         if (saved) setIsCollapsed(JSON.parse(saved));
     }, []);
 
     useEffect(() => {
-        localStorage.setItem("sidebar", JSON.stringify(isCollapsed));
+        localStorage.setItem("sidebar-collapsed", JSON.stringify(isCollapsed));
     }, [isCollapsed]);
 
     useEffect(() => {
         const handleResize = () => {
-            setIsOpen(window.innerWidth >= 768);
+            if (window.innerWidth >= 768) setIsMobileOpen(false);
         };
-
-        handleResize();
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    return {isCollapsed, setIsCollapsed, isOpen, setIsOpen};
+    return {isCollapsed, setIsCollapsed, isMobileOpen, setIsMobileOpen};
 }
