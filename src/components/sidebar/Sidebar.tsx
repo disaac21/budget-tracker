@@ -11,12 +11,10 @@ export function Sidebar() {
             {/* Mobile button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed top-5 left-5 z-50 md:hidden p-2.5 rounded-lg bg-white shadow-md border border-slate-200 hover:bg-slate-50 transition">
-                {isOpen ? (
-                    <X className="w-5 h-5 text-slate-700" />
-                ) : (
-                    <Menu className="w-5 h-5 text-slate-700" />
-                )}
+                className={`fixed bottom-5 left-5 z-50 md:hidden p-2.5 rounded-lg bg-white shadow-md border border-slate-200 hover:bg-slate-50 transition ${
+                    isOpen ? "opacity-0 pointer-events-none" : ""
+                }`}>
+                <Menu className="w-5 h-5 text-slate-700" />
             </button>
 
             {/* Overlay */}
@@ -77,7 +75,7 @@ export function Sidebar() {
                 <div className="border-t border-slate-100 bg-slate-50/40 p-3">
                     <button
                         className={`flex items-center w-full text-red-600 hover:bg-red-50 hover:text-red-700 transition rounded-md p-2
-              ${isCollapsed ? "justify-center" : "gap-3"}`}>
+                                ${isCollapsed ? "justify-center" : "gap-3"}`}>
                         <LogOut className="w-4 h-4" />
                         {!isCollapsed && (
                             <span className="text-sm font-medium">Logout</span>

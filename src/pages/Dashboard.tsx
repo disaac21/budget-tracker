@@ -4,6 +4,7 @@ import {StatsOverviewCard} from "../components/dashboard/StatsOverviewCard";
 import {TopCategoryCard} from "../components/dashboard/TopCategoryCard";
 import {BigButton} from "../components/dashboard/BigButton";
 import {CategoryRadialCard} from "../components/dashboard/CategoryRadialCard";
+import {TransactionsTable} from "../components/dashboard/TransactionsTable";
 import {
     SideIconAccordion,
     type AccordionItem,
@@ -22,6 +23,7 @@ const AccordionItems: AccordionItem[] = [
                     percentage={94}
                     icon={<Home className="w-6 h-6" />}
                 />
+
                 <CategoryRadialCard
                     title="Food & Dining"
                     current="$450.00"
@@ -29,12 +31,60 @@ const AccordionItems: AccordionItem[] = [
                     percentage={75}
                     icon={<Home className="w-6 h-6" />}
                 />
+
                 <CategoryRadialCard
                     title="Entertainment"
                     current="$80.00"
                     limit="$200.00"
                     percentage={40}
                     icon={<Home className="w-6 h-6" />}
+                />
+            </div>
+        ),
+    },
+    {
+        title: "Recent Transactions",
+        icon: <LayoutGrid className="w-5 h-5" />,
+        content: (
+            <div className="pt-2">
+                <TransactionsTable
+                    transactions={[
+                        {
+                            id: 1,
+                            date: "Oct 24, 2023 10:15 AM",
+                            description: "Whole Foods Market",
+                            amount: "-$184.20",
+                            type: "expense",
+                        },
+                        {
+                            id: 2,
+                            date: "Oct 22, 2023 2:30 PM",
+                            description: "Payroll Deposit",
+                            amount: "+$6,225.00",
+                            type: "income",
+                        },
+                        {
+                            id: 3,
+                            date: "Oct 20, 2023 6:45 PM",
+                            description: "Spotify Subscription",
+                            amount: "-$9.99",
+                            type: "expense",
+                        },
+                        {
+                            id: 4,
+                            date: "Oct 18, 2023 11:00 AM",
+                            description: "Amazon Purchase",
+                            amount: "-$45.50",
+                            type: "expense",
+                        },
+                        {
+                            id: 5,
+                            date: "Oct 15, 2023 9:00 AM",
+                            description: "Freelance Project",
+                            amount: "+$1,200.00",
+                            type: "income",
+                        },
+                    ]}
                 />
             </div>
         ),
