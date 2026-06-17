@@ -1,3 +1,4 @@
+import type {LucideIcon} from "lucide-react";
 import {
     Home,
     BarChart3,
@@ -6,10 +7,17 @@ import {
     User,
     Settings,
     HelpCircle,
-    LogOut,
 } from "lucide-react";
 
-export const navigationItems = [
+export interface NavigationItem {
+    id: string;
+    name: string;
+    icon: LucideIcon;
+    href: string;
+    badge?: string;
+}
+
+export const navigationItems: NavigationItem[] = [
     {id: "dashboard", name: "Dashboard", icon: Home, href: "/"},
     {id: "analytics", name: "Analytics", icon: BarChart3, href: "/analytics"},
     {
@@ -30,9 +38,3 @@ export const navigationItems = [
     {id: "settings", name: "Settings", icon: Settings, href: "/settings"},
     {id: "help", name: "Help", icon: HelpCircle, href: "/help"},
 ];
-
-export const logoutItem = {
-    id: "logout",
-    name: "Logout",
-    icon: LogOut,
-};

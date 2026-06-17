@@ -1,13 +1,12 @@
 import {useEffect, useState} from "react";
 
 export function useSidebarState() {
-    const [isCollapsed, setIsCollapsed] = useState(false);
-    const [isMobileOpen, setIsMobileOpen] = useState(false);
-
-    useEffect(() => {
+    const [isCollapsed, setIsCollapsed] = useState(() => {
         const saved = localStorage.getItem("sidebar-collapsed");
-        if (saved) setIsCollapsed(JSON.parse(saved));
-    }, []);
+        return saved ? JSON.parse(saved) : false;
+    });
+
+    const [isMobileOpen, setIsMobileOpen] = useState(false);
 
     useEffect(() => {
         localStorage.setItem("sidebar-collapsed", JSON.stringify(isCollapsed));

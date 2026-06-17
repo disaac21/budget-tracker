@@ -1,7 +1,7 @@
 import {Routes, Route} from "react-router-dom";
 
 import {Sidebar} from "./components/sidebar/Sidebar";
-import Dashboard from "./pages/Dashboard";
+import {Dashboard} from "./pages/Dashboard";
 
 // import Analytics from "./pages/Analytics";
 // import Documents from "./pages/Documents";
@@ -12,7 +12,7 @@ import Dashboard from "./pages/Dashboard";
 
 export default function App() {
     return (
-        <div className="h-screen bg-[#faf9fa] flex">
+        <div className="h-screen bg-background flex">
             <Sidebar />
 
             <main className="flex-1 overflow-y-auto">

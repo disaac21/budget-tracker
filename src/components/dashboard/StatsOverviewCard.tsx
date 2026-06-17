@@ -5,6 +5,7 @@ interface StatsOverviewCardProps {
     expenses: string;
     transactions: number;
     percentageUsed: number;
+    loading?: boolean;
 }
 
 export function StatsOverviewCard({
@@ -12,50 +13,71 @@ export function StatsOverviewCard({
     expenses,
     transactions,
     percentageUsed,
+    loading = false,
 }: StatsOverviewCardProps) {
     return (
-        <div className="w-full flex-1 bg-white border border-slate-200 rounded-2xl p-4 sm:p-4 shadow-sm flex flex-col justify-between">
-            {" "}
+        <div className="w-full flex-1 bg-card border border-border rounded-2xl p-4 sm:p-4 shadow-sm flex flex-col justify-between">
             <div className="relative z-10">
-                {/* Header and Net Flow */}
-                <p className="text-xs uppercase tracking-wider text-slate-400 font-semibold opacity-70">
+                <p className="text-xs uppercase tracking-wider text-muted font-semibold opacity-70">
                     This Month's Balance
                 </p>
 
-                <h2 className="text-xl sm:text-3xl font-extrabold text-blue-600 mt-2 break-words">
-                    {netFlow}
-                </h2>
+                {loading ? (
+                    <div className="mt-2 space-y-3 animate-pulse">
+                        <div className="h-8 bg-slate-200 rounded w-1/2" />
+                        <div className="h-4 bg-slate-200 rounded w-full" />
+                    </div>
+                ) : (
+                    <>
+                        <h2 className="text-xl sm:text-3xl font-extrabold text-primary mt-2">
+                            {netFlow}
+                        </h2>
 
-                {/* Percentage Used */}
-                <div className="relative z-10 mt-6">
-                    <IndicatorBar
-                        value={percentageUsed}
-                        label={`${percentageUsed}% OF BUDGET USED`}
-                        bgClassName="bg-blue-600/25"
-                        fillClassName="bg-blue-600"
-                        heightClassName="h-4"
-                    />
-                </div>
+                        <div className="relative z-10 mt-6">
+                            <IndicatorBar
+                                value={percentageUsed}
+                                label={`${percentageUsed}% OF BUDGET USED`}
+                                color="blue"
+                                size="lg"
+                            />
+                        </div>
+                    </>
+                )}
             </div>
             <div className="relative z-10 mt-2">
-                <div className="grid grid-cols-2 gap-4 pt-3 border-t border-slate-200">
-                    <div>
-                        <p className="text-xs text-slate-400 uppercase font-semibold opacity-70">
-                            Total Expenses
-                        </p>
-                        <p className="font-bold text-red-500 mt-0">
-                            {expenses}
-                        </p>
-                    </div>
+                <div className="grid grid-cols-2 gap-4 pt-3 border-t border-border">
+                    {loading ? (
+                        <div className="col-span-2 flex justify-between animate-pulse">
+                            <div className="space-y-2">
+                                <div className="h-3 bg-slate-200 rounded w-20" />
+                                <div className="h-5 bg-slate-200 rounded w-16" />
+                            </div>
+                            <div className="space-y-2">
+                                <div className="h-3 bg-slate-200 rounded w-20" />
+                                <div className="h-5 bg-slate-200 rounded w-12" />
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+                            <div>
+                                <p className="text-xs text-muted uppercase font-semibold opacity-70">
+                                    Total Expenses
+                                </p>
+                                <p className="font-bold text-danger mt-0">
+                                    {expenses}
+                                </p>
+                            </div>
 
-                    <div>
-                        <p className="text-xs text-slate-400 uppercase font-semibold opacity-70">
-                            Transactions
-                        </p>
-                        <p className="font-bold text-blue-600 mt-0">
-                            {transactions}
-                        </p>
-                    </div>
+                            <div>
+                                <p className="text-xs text-muted uppercase font-semibold opacity-70">
+                                    Transactions
+                                </p>
+                                <p className="font-bold text-primary mt-0">
+                                    {transactions}
+                                </p>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </div>
