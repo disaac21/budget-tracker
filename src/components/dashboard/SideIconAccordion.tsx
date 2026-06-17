@@ -1,6 +1,6 @@
 import {ChevronDown} from "lucide-react";
 import type {ReactNode} from "react";
-import {useState} from "react";
+import {useId, useState} from "react";
 
 export interface AccordionItem {
     title: string;
@@ -13,6 +13,7 @@ interface AccordionProps {
 }
 
 export function SideIconAccordion({items}: AccordionProps) {
+    const uid = useId();
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 
     const toggle = (index: number) => {
@@ -23,12 +24,17 @@ export function SideIconAccordion({items}: AccordionProps) {
         <div className="w-full">
             {items.map((item, index) => {
                 const isOpen = openIndex === index;
+                const contentId = `accordion-${uid}-content-${index}`;
+                const triggerId = `accordion-${uid}-trigger-${index}`;
 
                 return (
                     <div key={index} className="border-b border-border">
                         <button
+                            id={triggerId}
                             onClick={() => toggle(index)}
-                            className="flex items-center justify-between w-full py-4 px-0">
+                            aria-expanded={isOpen}
+                            aria-controls={contentId}
+                            className="flex items-center justify-between w-full py-4 px-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded">
                             <div className="flex items-center gap-3">
                                 <span className="size-5 text-muted flex items-center justify-center">
                                     {item.icon}
@@ -45,6 +51,9 @@ export function SideIconAccordion({items}: AccordionProps) {
                         </button>
 
                         <div
+                            id={contentId}
+                            role="region"
+                            aria-labelledby={triggerId}
                             className={`grid transition-all duration-300 ease-in-out ${
                                 isOpen
                                     ? "grid-rows-[1fr] opacity-100"

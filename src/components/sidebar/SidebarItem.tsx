@@ -17,7 +17,8 @@ export function SidebarItem({item, collapsed, onNavigate}: SidebarItemProps) {
             className={({isActive}) =>
                 `flex items-center gap-3 p-2 rounded-md transition
         ${isActive ? "bg-primary/10 text-primary" : "text-slate-600 hover:bg-slate-100"}
-        ${collapsed ? "justify-center" : ""}`
+        ${collapsed ? "justify-center" : ""}
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`
             }>
             <Icon className="w-4 h-4" />
 

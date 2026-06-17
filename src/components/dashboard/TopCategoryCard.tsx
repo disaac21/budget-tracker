@@ -7,6 +7,7 @@ interface TopCategoryCardProps {
     percentageUsed: number;
     icon: LucideIcon;
     loading?: boolean;
+    error?: string | null;
 }
 
 export function TopCategoryCard({
@@ -15,7 +16,16 @@ export function TopCategoryCard({
     percentageUsed,
     icon: Icon,
     loading = false,
+    error,
 }: TopCategoryCardProps) {
+    if (error) {
+        return (
+            <div className="w-full h-full bg-danger rounded-2xl p-4 sm:p-6 flex items-center justify-center shadow-xl">
+                <p className="text-white text-sm font-medium text-center">Failed to load</p>
+            </div>
+        );
+    }
+
     return (
         <div className="w-full h-full bg-primary rounded-2xl p-4 sm:p-6 text-white relative overflow-hidden shadow-xl flex flex-col justify-between">
             <div className="relative z-10">
@@ -49,7 +59,7 @@ export function TopCategoryCard({
                 )}
             </div>
 
-            {!loading && <Icon className="absolute -bottom-10 -right-10 w-40 h-40 opacity-10" />}
+            {!loading && !error && <Icon className="absolute -bottom-10 -right-10 w-40 h-40 opacity-10" />}
         </div>
     );
 }

@@ -1,11 +1,9 @@
-import {
-    Film,
-    Home,
-    LayoutGrid,
-    MinusCircle,
-    PlusCircle,
-    UtensilsCrossed,
-} from "lucide-react";
+import {LayoutGrid, MinusCircle, PlusCircle} from "lucide-react";
+
+import {useDashboardStats} from "../hooks/useDashboardStats";
+import {useTopCategory} from "../hooks/useTopCategory";
+import {useBudgetCategories} from "../hooks/useBudgetCategories";
+import {useTransactions} from "../hooks/useTransactions";
 
 import {StatsOverviewCard} from "../components/dashboard/StatsOverviewCard";
 import {TopCategoryCard} from "../components/dashboard/TopCategoryCard";
@@ -16,92 +14,81 @@ import {
     SideIconAccordion,
     type AccordionItem,
 } from "../components/dashboard/SideIconAccordion";
+import {useMemo} from "react";
 
 export function Dashboard() {
-    const accordionItems: AccordionItem[] = [
-        {
-            title: "Top Spending Categories",
-            icon: <LayoutGrid className="w-5 h-5" />,
-            content: (
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 pt-2">
-                    <CategoryRadialCard
-                        title="Housing"
-                        current="$252.00"
-                        limit="$4,200.00"
-                        percentage={94}
-                        icon={<Home className="w-6 h-6" />}
-                    />
+    const {
+        data: stats,
+        loading: statsLoading,
+        error: statsError,
+    } = useDashboardStats();
+    const {
+        data: topCategory,
+        loading: topLoading,
+        error: topError,
+    } = useTopCategory();
+    const {
+        data: categories,
+        loading: categoriesLoading,
+        error: categoriesError,
+    } = useBudgetCategories();
+    const {
+        data: transactions,
+        loading: transactionsLoading,
+        error: transactionsError,
+    } = useTransactions();
 
-                    <CategoryRadialCard
-                        title="Food & Dining"
-                        current="$450.00"
-                        limit="$600.00"
-                        percentage={75}
-                        icon={<UtensilsCrossed className="w-6 h-6" />}
-                    />
+    const accordionItems: AccordionItem[] = useMemo(
+        () => [
+            {
+                title: "Top Spending Categories",
+                icon: <LayoutGrid className="w-5 h-5" />,
+                content: (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 pt-2">
+                        {categories?.map((cat) => (
+                            <CategoryRadialCard
+                                key={cat.title}
+                                title={cat.title}
+                                current={cat.current}
+                                limit={cat.limit}
+                                percentage={cat.percentage}
+                                icon={<cat.icon className="w-6 h-6" />}
+                                loading={categoriesLoading}
+                                error={categoriesError}
+                            />
+                        ))}
+                    </div>
+                ),
+            },
+            {
+                title: "Recent Transactions",
+                icon: <LayoutGrid className="w-5 h-5" />,
+                content: (
+                    <div className="pt-2">
+                        {transactions && (
+                            <TransactionsTable
+                                transactions={transactions}
+                                loading={transactionsLoading}
+                                error={transactionsError}
+                            />
+                        )}
+                    </div>
+                ),
+            },
+        ],
+        [
+            categories,
+            categoriesLoading,
+            categoriesError,
+            transactions,
+            transactionsLoading,
+            transactionsError,
+        ],
+    );
 
-                    <CategoryRadialCard
-                        title="Entertainment"
-                        current="$80.00"
-                        limit="$200.00"
-                        percentage={20}
-                        icon={<Film className="w-6 h-6" />}
-                    />
-                </div>
-            ),
-        },
-        {
-            title: "Recent Transactions",
-            icon: <LayoutGrid className="w-5 h-5" />,
-            content: (
-                <div className="pt-2">
-                    <TransactionsTable
-                        transactions={[
-                            {
-                                id: 1,
-                                date: "Oct 24, 2023 10:15 AM",
-                                description: "Whole Foods Market",
-                                amount: "-$184.20",
-                                type: "expense",
-                            },
-                            {
-                                id: 2,
-                                date: "Oct 22, 2023 2:30 PM",
-                                description: "Payroll Deposit",
-                                amount: "+$6,225.00",
-                                type: "income",
-                            },
-                            {
-                                id: 3,
-                                date: "Oct 20, 2023 6:45 PM",
-                                description: "Spotify Subscription",
-                                amount: "-$9.99",
-                                type: "expense",
-                            },
-                            {
-                                id: 4,
-                                date: "Oct 18, 2023 11:00 AM",
-                                description: "Amazon Purchase",
-                                amount: "-$45.50",
-                                type: "expense",
-                            },
-                            {
-                                id: 5,
-                                date: "Oct 15, 2023 9:00 AM",
-                                description: "Freelance Project",
-                                amount: "+$1,200.00",
-                                type: "income",
-                            },
-                        ]}
-                    />
-                </div>
-            ),
-        },
-    ];
     return (
         <div className="min-h-screen bg-background text-foreground">
             <main className="p-4 sm:p-6 max-w-7xl mx-auto w-full overflow-x-hidden">
-                {/* HEADER */}
                 <section className="mb-6 sm:mb-8">
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-5">
                         <div>
@@ -117,23 +104,30 @@ export function Dashboard() {
                     </div>
                 </section>
 
-                {/* STATS */}
                 <section className="flex flex-col lg:flex-row gap-4 sm:gap-6 mb-8">
                     <div className="lg:w-2/3 flex flex-col">
-                        <StatsOverviewCard
-                            netFlow="+$4,282.50"
-                            percentageUsed={65}
-                            expenses="-$8,167.50"
-                            transactions={34}
-                        />
+                        {stats && (
+                            <StatsOverviewCard
+                                netFlow={stats.netFlow}
+                                percentageUsed={stats.percentageUsed}
+                                expenses={stats.expenses}
+                                transactions={stats.transactions}
+                                loading={statsLoading}
+                                error={statsError}
+                            />
+                        )}
                     </div>
                     <div className="lg:w-1/3 flex flex-col">
-                        <TopCategoryCard
-                            title="Housing & Rent"
-                            amount="$2,800.00"
-                            percentageUsed={85}
-                            icon={Home}
-                        />
+                        {topCategory && (
+                            <TopCategoryCard
+                                title={topCategory.title}
+                                amount={topCategory.amount}
+                                percentageUsed={topCategory.percentageUsed}
+                                icon={topCategory.icon}
+                                loading={topLoading}
+                                error={topError}
+                            />
+                        )}
                     </div>
                 </section>
 
@@ -141,14 +135,14 @@ export function Dashboard() {
                     <BigButton
                         title="Income"
                         icon={PlusCircle}
-                        color="bg-success"
+                        variant="income"
                         onClick={() => console.log("INCOME")}
                     />
 
                     <BigButton
                         title="Expense"
                         icon={MinusCircle}
-                        color="bg-danger"
+                        variant="expense"
                         onClick={() => console.log("EXPENSE")}
                     />
                 </section>

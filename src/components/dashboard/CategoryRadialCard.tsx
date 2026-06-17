@@ -6,34 +6,48 @@ interface CategoryRadialCardProps {
     limit: string;
     percentage: number;
     icon: ReactNode;
+    loading?: boolean;
+    error?: string | null;
 }
 
 function getCategoryColor(percentage: number) {
     if (percentage <= 25) {
         return {
-            stroke: "#22c55e",
-            text: "text-black",
+            stroke: "var(--color-success)",
+            text: "text-success",
         };
     }
 
     if (percentage <= 50) {
         return {
-            stroke: "#f1da09",
-            text: "text-black",
+            stroke: "var(--color-warning)",
+            text: "text-warning",
         };
     }
 
     if (percentage <= 75) {
         return {
             stroke: "#ff9d00",
-            text: "text-black",
+            text: "text-orange-500",
         };
     }
 
     return {
-        stroke: "#ef4444",
-        text: "text-black",
+        stroke: "var(--color-danger)",
+        text: "text-danger",
     };
+}
+
+function SkeletonCircle() {
+    return (
+        <div className="flex items-center gap-4 animate-pulse">
+            <div className="w-40 h-40 rounded-full bg-slate-200 flex-shrink-0" />
+            <div className="space-y-2 flex-1 hidden lg:block">
+                <div className="h-3 bg-slate-200 rounded w-16" />
+                <div className="h-3 bg-slate-200 rounded w-12" />
+            </div>
+        </div>
+    );
 }
 
 export function CategoryRadialCard({
@@ -42,7 +56,21 @@ export function CategoryRadialCard({
     limit,
     percentage,
     icon,
+    loading = false,
+    error,
 }: CategoryRadialCardProps) {
+    if (error) {
+        return (
+            <div className="w-full bg-card border border-border rounded-2xl p-4 shadow-sm flex items-center justify-center min-h-[160px]">
+                <p className="text-sm text-danger">{error}</p>
+            </div>
+        );
+    }
+
+    if (loading) {
+        return <SkeletonCircle />;
+    }
+
     const {stroke, text} = getCategoryColor(percentage);
 
     return (
@@ -53,7 +81,7 @@ export function CategoryRadialCard({
                         <path
                             d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                             fill="none"
-                            stroke="#e5e7eb"
+                            stroke="var(--color-border)"
                             strokeWidth="2.5"
                         />
                         <path

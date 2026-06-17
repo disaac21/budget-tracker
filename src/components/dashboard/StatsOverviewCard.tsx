@@ -6,6 +6,7 @@ interface StatsOverviewCardProps {
     transactions: number;
     percentageUsed: number;
     loading?: boolean;
+    error?: string | null;
 }
 
 export function StatsOverviewCard({
@@ -14,7 +15,19 @@ export function StatsOverviewCard({
     transactions,
     percentageUsed,
     loading = false,
+    error,
 }: StatsOverviewCardProps) {
+    if (error) {
+        return (
+            <div className="w-full flex-1 bg-card border border-border rounded-2xl p-4 shadow-sm flex items-center justify-center">
+                <div className="text-center">
+                    <p className="text-sm font-semibold text-danger">Failed to load stats</p>
+                    <p className="text-xs text-muted mt-1">{error}</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="w-full flex-1 bg-card border border-border rounded-2xl p-4 sm:p-4 shadow-sm flex flex-col justify-between">
             <div className="relative z-10">
@@ -33,7 +46,13 @@ export function StatsOverviewCard({
                             {netFlow}
                         </h2>
 
-                        <div className="relative z-10 mt-6">
+                        <div
+                            className="relative z-10 mt-6"
+                            role="progressbar"
+                            aria-valuenow={percentageUsed}
+                            aria-valuemin={0}
+                            aria-valuemax={100}
+                            aria-label={`${percentageUsed}% of budget used`}>
                             <IndicatorBar
                                 value={percentageUsed}
                                 label={`${percentageUsed}% OF BUDGET USED`}
